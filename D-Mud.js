@@ -8,7 +8,7 @@ const config = require("./config.json");
 const responseObject = require("./response.json");
 var mandoDMG = {
   sides: mando.STR,
-  roll: function () {
+  calc: function () {
     var totalDMG = 
     Math.floor(Math.random()*this.sides);
     return totalDMG;
@@ -42,25 +42,6 @@ client.on("message", (message) => {
   }
 });
 client.on("message", (message) => {
-  if (message.author.bot) return;
-  if (message.content.includes("d6")) {
-    message.channel.send(d6.roll())
-  }
-  if (message.content.includes("d20")) {
-    message.channel.send(d20.roll())
-    return
-  }
-  if (message.content.includes("d8")) {
-    message.channel.send(d8.roll())
-  }
-  if (message.content.includes("d12")) {
-    message.channel.send(d12.roll())
-  }
-  if (message.content.includes("d2")) {
-    message.channel.send(d2.roll())
-  }
-});
-client.on("message", (message) => {
   if (!message.content.startsWith(config.prefix) || message.author.bot) return;
 
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
@@ -81,7 +62,7 @@ client.on("message", (message) => {
   if (message.content.includes("attack")) {
     let newDMG = mandoDMG.calc()
     mando.DMG = newDMG;
-    fs.writeFile("./rea.json", JSON.stringify(mando), (err) => console.error);
+    fs.writeFile("./mando.json", JSON.stringify(mando), (err) => console.error);
     message.channel.send("You swing your " + mando.WPN + " and deal " + mando.DMG + " damage")
   }
 });
