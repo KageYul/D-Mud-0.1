@@ -6,38 +6,6 @@ const mando = require("./mando.json");
 const stats = require("./stats.json");
 const config = require("./config.json");
 const responseObject = require("./response.json");
-var d20 = {
-  sides: 20,
-  roll: function () {
-    var randomNumber = 
-    Math.floor(Math.random()*this.sides) + 1;
-    return randomNumber;
-  }
-}
-var d12 = {
-  sides: 12,
-  roll: function () {
-    var randomNumber = 
-    Math.floor(Math.random()*this.sides) + 1;
-    return randomNumber;
-  }
-}
-var d8 = {
-  sides: 8,
-  roll: function () {
-    var randomNumber = 
-    Math.floor(Math.random()*this.sides) + 1;
-    return randomNumber;
-  }
-}
-var d2 = {
-  sides: 2,
-  roll: function () {
-    var randomNumber = 
-    Math.floor(Math.random()*this.sides) + 1;
-    return randomNumber;
-  }
-}
 var mandoDMG = {
   sides: mando.STR,
   roll: function () {
