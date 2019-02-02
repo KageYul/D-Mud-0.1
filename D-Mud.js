@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const fs = require("fs");
+const mob = require("./mob.json");
 const rea = require("./rea.json");
 const mando = require("./mando.json");
 const stats = require("./stats.json");
@@ -13,7 +14,15 @@ var mandoDMG = {
     Math.floor(Math.random()*this.sides);
     return totalDMG;
   }
-}
+};
+var hit = {
+  sides: 2,
+  calc: function() {
+  var miss =
+  Math.floor(Math.random()*this.sides);
+  return miss;
+  }
+};
 var reaDMG = {
   sides: rea.STR,
   calc: function() {
@@ -21,7 +30,7 @@ var reaDMG = {
   Math.floor(Math.random()*this.sides);
   return totalDMG;
   }
-}
+};
 fs.readdir("./events/", (err, files) => {
   if (err) return console.error(err);
   files.forEach(file => {
@@ -32,7 +41,7 @@ fs.readdir("./events/", (err, files) => {
 });
 client.on("ready", () => {
   client.user.setStatus("dnd");
-  client.user.setGame("D-MUD(WiP)");
+  client.user.setGame("D-MUD(aV.1.0.2b)");
   console.log("I am ready!");
 });
 client.on("message", (message) => {
@@ -57,25 +66,29 @@ client.on("message", (message) => {
 client.on("message", (message) => {
   if (message.author.id !== config.ownerID || message.author.bot) return;
   if (message.content.includes("cast")) {
-    message.channel.send("You cast "  + mando.Spell + " for " + mando.Spelld + " damage")
+    message.channel.send("You cast " + mando.Spell + " at the " + mob.ID + " for " + mando.Spelld + " damage")
+    message.channel.send("The " + mob.ID + " flinches under the influence of your spell")
   }
   if (message.content.includes("attack")) {
     let newDMG = mandoDMG.calc()
     mando.DMG = newDMG;
     fs.writeFile("./mando.json", JSON.stringify(mando), (err) => console.error);
-    message.channel.send("You swing your " + mando.WPN + " and deal " + mando.DMG + " damage")
+    message.channel.send("You swing your " + mando.WPN + " and hit the " + mob.ID + " for " + mando.DMG + " damage.")
+    message.channel.send("The " + mob.ID + " hits you back for " + mob.DMG + " damage")
   }
 });
 client.on("message", (message) => {
   if (message.author.id !== config.reaID || message.author.bot) return;
   if (message.content.includes("cast")) {
-    message.channel.send("You cast "  + rea.Spell + " for " + rea.Spelld + " damage")
+    message.channel.send("You cast "  + rea.Spell + " at the " + mob.ID + " for " + rea.Spelld + " damage")
+    message.channel.send("The " + mob.ID + " flinches und the influence of your spell")
   }
   if (message.content.includes("attack")) {
     let newDMG = reaDMG.calc()
     rea.DMG = newDMG;
     fs.writeFile("./rea.json", JSON.stringify(rea), (err) => console.error);
-    message.channel.send("You swing your " + rea.WPN + " and deal " + rea.DMG + " damage")
+    message.channel.send("You swing your " + rea.WPN + " at the " + mob.ID +  " and deal " + rea.DMG + " damage")
+    message.channel.send("The " + mob.ID + " hits you back for " + mob.DMG + " damage")
   }
 });
 client.on("message", (message) => {
